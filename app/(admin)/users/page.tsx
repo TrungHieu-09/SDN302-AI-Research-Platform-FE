@@ -1,4 +1,8 @@
+"use client"
+
 import { Users, MoreVertical, Shield, User as UserIcon, UserCheck, UserX } from "lucide-react"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 const users = [
   { id: 1, name: "Nguyen Van A", email: "anv@fpt.edu.vn", role: "Student", status: "Active", joinDate: "2024-01-15" },
@@ -9,6 +13,8 @@ const users = [
 ]
 
 export default function UsersPage() {
+  const router = useRouter()
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -16,14 +22,17 @@ export default function UsersPage() {
           <h1 className="text-3xl font-bold tracking-tight text-on-surface mb-2">User Management</h1>
           <p className="text-on-surface-variant">Manage your organization's users and their account permissions.</p>
         </div>
-        <button className="bg-primary hover:bg-secondary text-white px-6 py-2.5 rounded-2xl font-semibold shadow-lg shadow-primary/20 transition-all flex items-center gap-2 w-fit">
+        <Link 
+          href="/users/invite"
+          className="bg-primary hover:bg-secondary text-white px-6 py-2.5 rounded-2xl font-bold shadow-lg shadow-primary/20 transition-all flex items-center gap-2 w-fit"
+        >
           <Users size={18} />
           <span>Invite User</span>
-        </button>
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="glass-panel p-6 rounded-3xl flex items-center gap-4">
+        <div className="glass-panel p-6 flex items-center gap-4">
           <div className="p-3 bg-primary/10 text-primary rounded-2xl">
             <UserIcon size={24} />
           </div>
@@ -32,7 +41,7 @@ export default function UsersPage() {
             <h4 className="text-2xl font-bold">1,284</h4>
           </div>
         </div>
-        <div className="glass-panel p-6 rounded-3xl flex items-center gap-4">
+        <div className="glass-panel p-6 flex items-center gap-4">
           <div className="p-3 bg-green-100 text-green-600 rounded-2xl">
             <UserCheck size={24} />
           </div>
@@ -41,7 +50,7 @@ export default function UsersPage() {
             <h4 className="text-2xl font-bold">156</h4>
           </div>
         </div>
-        <div className="glass-panel p-6 rounded-3xl flex items-center gap-4">
+        <div className="glass-panel p-6 flex items-center gap-4">
           <div className="p-3 bg-red-100 text-red-600 rounded-2xl">
             <UserX size={24} />
           </div>
@@ -52,7 +61,7 @@ export default function UsersPage() {
         </div>
       </div>
 
-      <div className="glass-panel rounded-3xl overflow-hidden border border-outline/5 transition-all">
+      <div className="glass-panel overflow-hidden border border-outline/5 transition-all">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
@@ -66,7 +75,11 @@ export default function UsersPage() {
             </thead>
             <tbody className="divide-y divide-outline/5">
               {users.map((user) => (
-                <tr key={user.id} className="hover:bg-primary/5 transition-colors group">
+                <tr 
+                  key={user.id} 
+                  onClick={() => router.push(`/users/${user.id}`)}
+                  className="hover:bg-primary/5 transition-colors group cursor-pointer"
+                >
                   <td className="px-6 py-5">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center font-bold text-primary text-[14px]">
