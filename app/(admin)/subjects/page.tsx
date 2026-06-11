@@ -2,6 +2,7 @@
 
 import { BookOpen, Plus, Search, Filter, Trash2, CheckCircle, XCircle } from "lucide-react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 const subjects = [
   { id: 1, name: "Web Development", code: "WEB401", count: 145, status: "Active" },
@@ -24,12 +25,15 @@ export default function SubjectsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-on-surface mb-2">Subject Management</h1>
-          <p className="text-on-surface-variant">Manage the academic subject taxonomy and student-proposed tags.</p>
+          <p className="text-on-surface-variant font-medium">Organize academic subjects and review community-proposed documentation tags.</p>
         </div>
-        <button className="bg-primary hover:bg-secondary text-white px-6 py-2.5 rounded-2xl font-semibold shadow-lg shadow-primary/20 transition-all flex items-center gap-2 w-fit">
+        <Link 
+          href="/subjects/new"
+          className="bg-primary hover:bg-secondary text-white px-6 py-2.5 rounded-2xl font-bold shadow-lg shadow-primary/20 transition-all flex items-center gap-2 w-fit"
+        >
           <Plus size={18} />
           <span>New Subject</span>
-        </button>
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
