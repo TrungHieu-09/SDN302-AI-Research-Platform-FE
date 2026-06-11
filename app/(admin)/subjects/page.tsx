@@ -1,4 +1,7 @@
+"use client"
+
 import { BookOpen, Plus, Search, Filter, Trash2, CheckCircle, XCircle } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 const subjects = [
   { id: 1, name: "Web Development", code: "WEB401", count: 145, status: "Active" },
@@ -14,6 +17,8 @@ const suggestions = [
 ]
 
 export default function SubjectsPage() {
+  const router = useRouter()
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -47,7 +52,11 @@ export default function SubjectsPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {subjects.map((subject) => (
-              <div key={subject.id} className="glass-panel p-6 rounded-3xl group border border-outline/5 hover:border-primary/20 transition-all">
+              <div 
+                key={subject.id} 
+                onClick={() => router.push(`/subjects/${subject.id}`)}
+                className="glass-panel p-6 rounded-3xl group border border-outline/5 hover:border-primary/20 transition-all cursor-pointer"
+              >
                 <div className="flex items-start justify-between mb-4">
                   <div className="p-3 bg-primary/10 text-primary rounded-2xl">
                     <BookOpen size={20} />
