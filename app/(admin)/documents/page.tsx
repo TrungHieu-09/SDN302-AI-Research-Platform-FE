@@ -1,7 +1,8 @@
 "use client"
 
-import { FileText, Eye, MoreHorizontal, Download, Trash2, Clock, CheckCircle, XCircle, Search } from "lucide-react"
+import { FileText, Eye, MoreHorizontal, Download, Trash2, Clock, CheckCircle, XCircle, Search, Plus } from "lucide-react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 const documents = [
   { id: 1, title: "Operating Systems Lecture Notes", subject: "Comp Science", owner: "Nguyen Van A", status: "Approved", size: "2.4 MB", date: "2024-06-05" },
@@ -19,14 +20,15 @@ export default function DocumentsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-on-surface mb-2">Document Management</h1>
-          <p className="text-on-surface-variant">Review, approve, or manage all academic documents across the platform.</p>
+          <p className="text-on-surface-variant font-medium">Moderate academic resources and manage the document lifecycle.</p>
         </div>
-        <div className="flex gap-2">
-            <button className="bg-surface border border-outline/10 text-on-surface-variant px-4 py-2.5 rounded-2xl font-semibold hover:bg-surface-container-high transition-all flex items-center gap-2">
-                <Download size={18} />
-                <span>Export Log</span>
-            </button>
-        </div>
+        <Link 
+          href="/documents/upload"
+          className="bg-primary hover:bg-secondary text-white px-6 py-2.5 rounded-2xl font-bold shadow-lg shadow-primary/20 transition-all flex items-center gap-2 w-fit"
+        >
+          <Plus size={18} />
+          <span>Upload Document</span>
+        </Link>
       </div>
 
       <div className="glass-panel p-4 rounded-3xl flex flex-wrap gap-4 items-center">
