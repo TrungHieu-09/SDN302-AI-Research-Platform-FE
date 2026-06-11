@@ -1,4 +1,7 @@
+"use client"
+
 import { FileText, Eye, MoreHorizontal, Download, Trash2, Clock, CheckCircle, XCircle, Search } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 const documents = [
   { id: 1, title: "Operating Systems Lecture Notes", subject: "Comp Science", owner: "Nguyen Van A", status: "Approved", size: "2.4 MB", date: "2024-06-05" },
@@ -9,6 +12,8 @@ const documents = [
 ]
 
 export default function DocumentsPage() {
+  const router = useRouter()
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -49,7 +54,11 @@ export default function DocumentsPage() {
 
       <div className="grid grid-cols-1 gap-4">
         {documents.map((doc) => (
-          <div key={doc.id} className="glass-panel p-5 rounded-3xl group border border-outline/5 hover:border-primary/20 transition-all flex flex-col md:flex-row md:items-center gap-6">
+          <div 
+            key={doc.id} 
+            onClick={() => router.push(`/documents/${doc.id}`)}
+            className="glass-panel p-5 rounded-3xl group border border-outline/5 hover:border-primary/20 transition-all flex flex-col md:flex-row md:items-center gap-6 cursor-pointer"
+          >
             <div className="p-4 bg-primary/5 text-primary rounded-2xl self-start md:self-center">
               <FileText size={32} />
             </div>
