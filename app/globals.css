@@ -5,28 +5,25 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-surface-container-highest: #d9e3f6;
-  --color-on-secondary-container: #fefcff;
-  --color-secondary-container: #316bf3;
-  --color-surface-container-high: #dee9fc;
-  --color-surface: #f8f9ff;
-  --color-primary-container: #2170e4;
-  --color-on-background: #121c2a;
-  --color-inverse-surface: #27313f;
-  --color-surface-container-low: #eff4ff;
-  --color-on-surface: #121c2a;
-  --color-on-surface-variant: #424754;
-  --color-outline-variant: #c2c6d6;
-  --color-tertiary-container: #b75b00;
-  --color-surface-variant: #d9e3f6;
-  --color-primary: #0058be;
-  --color-secondary: #0051d5;
-  --color-tertiary: #924700;
+  --color-surface-container-highest: #dbeafe;
+  --color-on-secondary-container: #1e293b;
+  --color-secondary-container: #eff6ff;
+  --color-surface-container-high: #f0f7ff;
+  --color-surface: #f8fbff;
+  --color-primary-container: #3b82f6;
+  --color-on-background: #1f2937;
+  --color-inverse-surface: #1e293b;
+  --color-surface-container-low: #f1f5f9;
+  --color-on-surface: #1f2937;
+  --color-on-surface-variant: #475569;
+  --color-outline-variant: #e2e8f0;
+  --color-tertiary-container: #ffedd5;
+  --color-surface-variant: #f1f5f9;
+  --color-primary: #3b82f6;
+  --color-secondary: #2563eb;
+  --color-tertiary: #d16900;
   --color-on-primary: #ffffff;
-  --color-primary-fixed: #d8e2ff;
-  --color-primary-fixed-dim: #adc6ff;
-  --color-secondary-fixed: #dbe1ff;
-  --color-outline: #727785;
+  --radius-3xl: 24px;
 
   --spacing-gutter: 24px;
   --spacing-margin-mobile: 16px;
@@ -176,11 +173,10 @@
 }
 
 .glass-panel {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 10px 40px rgba(31, 41, 55, 0.08);
+  background: var(--color-surface-container-high);
+  border: 1px solid var(--color-outline-variant);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  border-radius: var(--radius-3xl);
 }
 
 .ai-spark-border {
