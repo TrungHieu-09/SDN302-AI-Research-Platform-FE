@@ -1,0 +1,155 @@
+import type { Collection, DocumentItem, DocumentTag } from "@/app/types/document"
+
+export const mockCollections: Collection[] = [
+  {
+    id: "all-documents",
+    name: "All Documents",
+    count: 142,
+  },
+  {
+    id: "thesis-research",
+    name: "Thesis Research",
+    count: 45,
+    children: [
+      {
+        id: "literature-reviews",
+        name: "Literature Reviews",
+        count: 23,
+      },
+      {
+        id: "data-sets",
+        name: "Data Sets",
+        count: 12,
+      },
+    ],
+  },
+  {
+    id: "machine-learning",
+    name: "Machine Learning",
+    count: 89,
+  },
+  {
+    id: "neuroscience",
+    name: "Neuroscience",
+    count: 12,
+  },
+]
+
+export const mockTags: DocumentTag[] = [
+  {
+    id: "neural-networks",
+    name: "#neural-networks",
+    color: "#2170e4",
+  },
+  {
+    id: "important",
+    name: "#important",
+    color: "#b85c00",
+  },
+  {
+    id: "to-read",
+    name: "#to-read",
+    color: "#ba1a1a",
+  },
+  {
+    id: "cvpr-2023",
+    name: "#cvpr-2023",
+    color: "#0058be",
+  },
+  {
+    id: "nlp",
+    name: "#nlp",
+    color: "#727785",
+  },
+]
+
+export const mockDocumentList: DocumentItem[] = [
+  {
+    id: "attention-is-all-you-need",
+    title: "Attention Is All You Need",
+    authors: ["Ashish Vaswani", "Noam Shazeer", "Niki Parmar"],
+    year: 2017,
+    collection: "Machine Learning",
+    fileType: "pdf",
+    tags: [mockTags[0], mockTags[4]],
+    status: "published",
+    addedAt: "2026-06-15T08:30:00.000Z",
+  },
+  {
+    id: "language-models-are-few-shot-learners",
+    title: "Language Models are Few-Shot Learners",
+    authors: ["Tom B. Brown", "Benjamin Mann", "Nick Ryder"],
+    year: 2020,
+    collection: "Machine Learning",
+    fileType: "docx",
+    tags: [mockTags[1], mockTags[4]],
+    status: "published",
+    addedAt: "2026-06-13T10:15:00.000Z",
+  },
+  {
+    id: "deep-residual-learning-for-image-recognition",
+    title: "Deep Residual Learning for Image Recognition",
+    authors: ["Kaiming He", "Xiangyu Zhang", "Shaoqing Ren"],
+    year: 2016,
+    collection: "Machine Learning",
+    fileType: "pptx",
+    tags: [mockTags[0], mockTags[3]],
+    status: "published",
+    addedAt: "2026-06-10T14:05:00.000Z",
+  },
+  {
+    id: "bert-pre-training-of-deep-bidirectional-transformers",
+    title: "BERT: Pre-training of Deep Bidirectional Transformers",
+    authors: ["Jacob Devlin", "Ming-Wei Chang", "Kenton Lee"],
+    year: 2019,
+    collection: "Thesis Research",
+    fileType: "txt",
+    tags: [mockTags[2], mockTags[4]],
+    status: "draft",
+    addedAt: "2026-06-08T09:20:00.000Z",
+  },
+  {
+    id: "generative-adversarial-nets",
+    title: "Generative Adversarial Nets",
+    authors: ["Ian Goodfellow", "Jean Pouget-Abadie", "Mehdi Mirza"],
+    year: 2014,
+    collection: "Literature Reviews",
+    fileType: "pdf",
+    tags: [mockTags[0], mockTags[1]],
+    status: "published",
+    addedAt: "2026-06-05T12:45:00.000Z",
+  },
+  {
+    id: "vision-transformers-for-dense-prediction",
+    title: "Vision Transformers for Dense Prediction",
+    authors: ["Rene Ranftl", "Alexey Bochkovskiy", "Vladlen Koltun"],
+    year: 2021,
+    collection: "Machine Learning",
+    fileType: "docx",
+    tags: [mockTags[2], mockTags[3]],
+    status: "published",
+    addedAt: "2026-06-01T16:10:00.000Z",
+  },
+  {
+    id: "self-supervised-representation-learning-in-neural-systems",
+    title: "Self-Supervised Representation Learning in Neural Systems",
+    authors: ["Maya Chen", "Elena Novak"],
+    year: 2024,
+    collection: "Neuroscience",
+    fileType: "pptx",
+    tags: [mockTags[0], mockTags[2]],
+    status: "draft",
+    addedAt: "2026-05-28T11:00:00.000Z",
+  },
+  {
+    id: "retrieval-augmented-generation-for-scientific-literature",
+    title: "Retrieval-Augmented Generation for Scientific Literature",
+    authors: ["Aarav Patel", "Sofia Martinez", "Linh Tran"],
+    year: 2025,
+    collection: "Thesis Research",
+    fileType: "pdf",
+    tags: [mockTags[1], mockTags[4]],
+    status: "published",
+    addedAt: "2026-05-24T07:40:00.000Z",
+  },
+]
