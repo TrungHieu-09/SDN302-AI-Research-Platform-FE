@@ -6,13 +6,11 @@ import { usePathname } from "next/navigation"
 import {
   LayoutDashboard,
   BookOpen,
-  FolderOpen,
-  Share2,
-  Brain,
-  Wallet,
+  Sparkles,
+  Lightbulb,
   Settings,
   Plus,
-  Sparkles,
+  ShieldCheck,
   Menu,
   X,
 } from "lucide-react"
@@ -21,10 +19,9 @@ import { cn } from "@/lib/utils"
 const navigation = [
   { name: "Dashboard", href: "/hub/dashboard", icon: LayoutDashboard },
   { name: "Library", href: "/hub/documents", icon: BookOpen },
-  { name: "Collections", href: "/hub/collections", icon: FolderOpen },
-  { name: "Shared Documents", href: "/hub/shared", icon: Share2 },
-  { name: "AI Workspace", href: "/hub/synthesis", icon: Brain },
-  { name: "Storage & Billing", href: "/hub/billing", icon: Wallet },
+  { name: "AI Synthesis", href: "/hub/synthesis", icon: Sparkles },
+  { name: "Insights", href: "/hub", icon: Lightbulb },
+  { name: "Settings", href: "/hub/settings", icon: Settings },
 ]
 
 export function ResearchSidebar() {
@@ -111,23 +108,14 @@ export function ResearchSidebar() {
           })}
         </nav>
 
-        {/* Bottom Settings */}
+        {/* Admin Console footer */}
         <div className="px-3 pb-6 pt-4 border-t border-[#c2c6d6]/30 mt-2">
           <Link
-            href="/hub/settings"
-            onClick={() => setMobileOpen(false)}
-            className={cn(
-              "flex items-center gap-3 px-3 py-2.5 rounded-2xl text-[14px] font-medium transition-all duration-150 group",
-              isActive("/hub/settings")
-                ? "bg-[#0058be] text-white shadow-sm shadow-[#0058be]/20"
-                : "text-[#424754] hover:bg-[#eff4ff] hover:text-[#0058be]"
-            )}
+            href="/dashboard"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-2xl text-[13px] font-medium text-[#424754] hover:bg-[#eff4ff] hover:text-[#0058be] transition-all group"
           >
-            <Settings
-              size={18}
-              className={cn("shrink-0 transition-colors", isActive("/hub/settings") ? "text-white" : "text-[#727785] group-hover:text-[#0058be]")}
-            />
-            <span>Settings</span>
+            <ShieldCheck size={16} className="text-[#727785] group-hover:text-[#0058be] shrink-0 transition-colors" />
+            Admin Console
           </Link>
         </div>
       </aside>
