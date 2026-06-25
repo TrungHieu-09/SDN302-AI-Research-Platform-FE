@@ -22,26 +22,29 @@ import type { DocumentItem } from "@/app/types/document"
 import { CollectionsSidebar } from "@/components/library/CollectionsSidebar"
 import { DocumentTable } from "@/components/library/DocumentTable"
 import { TagsPanel } from "@/components/library/TagsPanel"
+import { UploadModal } from "@/components/library/UploadModal"
 
 export default function DocumentsPage() {
   const [activeCollectionId, setActiveCollectionId] = React.useState("all-documents")
   const [searchQuery, setSearchQuery] = React.useState("")
+  const [uploadModalOpen, setUploadModalOpen] = React.useState(false)
+  const [documentList, setDocumentList] = React.useState<DocumentItem[]>(mockDocumentList)
   const [selectedDocumentId, setSelectedDocumentId] = React.useState(mockDocumentList[0]?.id ?? "")
 
   const filteredDocuments = React.useMemo(() => {
     const normalizedQuery = searchQuery.trim().toLowerCase()
 
     if (!normalizedQuery) {
-      return mockDocumentList
+      return documentList
     }
 
-    return mockDocumentList.filter((document) => {
+    return documentList.filter((document) => {
       const titleMatches = document.title.toLowerCase().includes(normalizedQuery)
       const authorMatches = document.authors.some((author) => author.toLowerCase().includes(normalizedQuery))
 
       return titleMatches || authorMatches
     })
-  }, [searchQuery])
+  }, [documentList, searchQuery])
 
   const handleDocumentAction = React.useCallback((document: DocumentItem) => {
     setSelectedDocumentId(document.id)
@@ -49,8 +52,8 @@ export default function DocumentsPage() {
   }, [])
 
   const selectedDocument = React.useMemo(() => {
-    return mockDocumentList.find((document) => document.id === selectedDocumentId) ?? filteredDocuments[0]
-  }, [filteredDocuments, selectedDocumentId])
+    return documentList.find((document) => document.id === selectedDocumentId) ?? filteredDocuments[0]
+  }, [documentList, filteredDocuments, selectedDocumentId])
 
   React.useEffect(() => {
     if (filteredDocuments.length === 0) {
@@ -137,6 +140,7 @@ export default function DocumentsPage() {
 
             <button
               type="button"
+              onClick={() => setUploadModalOpen(true)}
               className="flex h-12 items-center gap-2 rounded-2xl bg-gradient-to-br from-[#004191] to-[#0051d6] px-5 text-[14px] font-semibold text-white shadow-[0px_4px_14px_rgba(0,65,145,0.25)] transition-opacity hover:opacity-90"
             >
               <Upload size={18} />
@@ -281,6 +285,16 @@ export default function DocumentsPage() {
           )}
         </aside>
       </div>
+
+      <UploadModal
+        open={uploadModalOpen}
+        onClose={() => setUploadModalOpen(false)}
+        collections={mockCollections}
+        onUploadComplete={(doc) => {
+          setDocumentList((prev) => [doc, ...prev])
+          setUploadModalOpen(false)
+        }}
+      />
     </div>
   )
 }
