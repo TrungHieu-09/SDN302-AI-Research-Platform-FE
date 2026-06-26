@@ -22,7 +22,7 @@ const navigation = [
   { name: "Dashboard", href: "/hub/dashboard", icon: LayoutDashboard },
   { name: "Library", href: "/hub/library", icon: BookOpen },
   { name: "Shared Documents", href: "/hub/shared", icon: Share2 },
-  { name: "AI Workspace", href: "/hub/synthesis", icon: Brain },
+  { name: "AI Workspace", href: "/hub/ai-workspace", icon: Brain },
   { name: "Storage & Billing", href: "/hub/billing", icon: Wallet },
 ]
 
