@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
 import { cn } from "@/lib/utils"
 
 export default function PaymentManagementPage() {
@@ -119,9 +120,9 @@ export default function PaymentManagementPage() {
                 Priority Support
               </div>
             </div>
-            <button className="w-full bg-[#ffffff] text-[#004191] border border-[#004191] font-semibold text-[13px] py-2.5 rounded-lg hover:bg-[#f0f7ff] transition-colors">
+            <Link href="/hub/payment/checkout?plan=storage" className="w-full bg-[#ffffff] text-[#004191] border border-[#004191] font-semibold text-[13px] py-2.5 rounded-lg hover:bg-[#f0f7ff] transition-colors text-center block">
               Upgrade Storage
-            </button>
+            </Link>
           </div>
 
           {/* Plan 3: AI Only */}
@@ -148,9 +149,9 @@ export default function PaymentManagementPage() {
                 5 GB Cloud Storage
               </div>
             </div>
-            <button className="w-full bg-[#ffffff] text-[#004191] border border-[#004191] font-semibold text-[13px] py-2.5 rounded-lg hover:bg-[#f0f7ff] transition-colors">
+            <Link href="/hub/payment/checkout?plan=ai" className="w-full bg-[#ffffff] text-[#004191] border border-[#004191] font-semibold text-[13px] py-2.5 rounded-lg hover:bg-[#f0f7ff] transition-colors text-center block">
               Upgrade AI
-            </button>
+            </Link>
           </div>
 
           {/* Plan 4: Both */}
@@ -182,9 +183,9 @@ export default function PaymentManagementPage() {
                 24/7 Dedicated Support
               </div>
             </div>
-            <button className="w-full bg-gradient-to-br from-[#004191] to-[#0051d6] text-white font-semibold text-[13px] py-2.5 rounded-lg hover:opacity-90 transition-opacity shadow-md">
+            <Link href="/hub/payment/checkout?plan=ultimate" className="w-full bg-gradient-to-br from-[#004191] to-[#0051d6] text-white font-semibold text-[13px] py-2.5 rounded-lg hover:opacity-90 transition-opacity shadow-md text-center block">
               Upgrade to Ultimate
-            </button>
+            </Link>
           </div>
         </div>
       </div>
