@@ -23,7 +23,7 @@ const navigation = [
   { name: "Library", href: "/hub/library", icon: BookOpen },
   { name: "Shared Documents", href: "/hub/shared", icon: Share2 },
   { name: "AI Workspace", href: "/hub/ai-workspace", icon: Brain },
-  { name: "Storage & Billing", href: "/hub/billing", icon: Wallet },
+  { name: "Payment Management", href: "/hub/payment", icon: Wallet },
 ]
 
 export function ResearchSidebar() {
