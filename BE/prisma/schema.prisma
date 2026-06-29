@@ -154,9 +154,8 @@ model DocumentChunk {
   chunkIndex Int
   pageNumber Int
   content    String   @db.Text
-  // Note: embedding column (vector) must be added via raw SQL migration after enabling pgvector extension
-  // ALTER TABLE document_chunks ADD COLUMN embedding vector(1536);
-  // CREATE INDEX ON document_chunks USING hnsw (embedding vector_cosine_ops);
+  metadata   Json?    @default("{}")
+  embedding  Unsupported("vector(1536)")?
   createdAt  DateTime @default(now())
 
   @@map("document_chunks")
