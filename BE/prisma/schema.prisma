@@ -60,7 +60,8 @@ model User {
   id                 String              @id @default(uuid()) @db.Uuid
   name               String
   email              String              @unique
-  passwordHash       String
+  avatarUrl          String?
+  passwordHash       String?
   role               Role                @default(STUDENT)
   status             AccountStatus       @default(ACTIVE)
   tier               AccountTier         @default(FREE)
