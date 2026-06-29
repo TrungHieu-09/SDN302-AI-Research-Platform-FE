@@ -32,19 +32,18 @@ docker compose up -d
 -- 1. Bật extension pgvector (nếu chưa bật)
 CREATE EXTENSION IF NOT EXISTS vector;
 
--- 2. Tạo bảng lưu trữ đoạn văn bản (Chunks) và Vector Embedding (1536 chiều cho OpenAI)
-CREATE TABLE IF NOT EXISTS document_chunks (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
-  content TEXT NOT NULL,
-  metadata JSONB DEFAULT '{}'::jsonb,
-  embedding vector(1536)
-);
+-- 2. Thêm cột embedding và metadata vào bảng document_chunks (do Prisma đã tạo trước đó)
+ALTER TABLE document_chunks 
+ADD COLUMN IF NOT EXISTS metadata JSONB DEFAULT '{}'::jsonb,
+ADD COLUMN IF NOT EXISTS embedding vector(1536);
 
 -- 3. Tạo chỉ mục (Index) HNSW để tìm kiếm vector cực nhanh
 CREATE INDEX IF NOT EXISTS document_chunks_embedding_idx 
 ON document_chunks USING hnsw (embedding vector_cosine_ops);
 ```
+
+> **💡 Mẹo nhỏ:** Hoặc bạn có thể chạy thẳng lệnh tiện ích sau trong terminal tại thư mục `BE`:  
+> `npm run db:setup-vector` (Hệ thống tự động chạy toàn bộ SQL trên giúp bạn!).
 
 ---
 
