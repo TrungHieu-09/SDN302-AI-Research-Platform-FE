@@ -12,15 +12,23 @@ export const UploadMetadataSchema = z.object({
   pageCount: z.number().int().nonnegative().default(0),
 })
 
-export const ModerationDecisionSchema = z.object({
-  decision: z.enum(["APPROVED", "REJECTED"]),
-  rejectionReason: z.string().max(500).optional(),
-}).refine(
-  (data) => {
-    if (data.decision === "REJECTED") return !!data.rejectionReason && data.rejectionReason.length > 0
-    return true
+export const ModerationDecisionSchema = z.preprocess(
+  (val: any) => {
+    if (val && typeof val === "object" && !val.decision && val.status) {
+      return { ...val, decision: val.status }
+    }
+    return val
   },
-  { message: "A rejection reason is required when rejecting a document.", path: ["rejectionReason"] }
+  z.object({
+    decision: z.enum(["APPROVED", "REJECTED"]),
+    rejectionReason: z.string().max(500).optional(),
+  }).refine(
+    (data) => {
+      if (data.decision === "REJECTED") return !!data.rejectionReason && data.rejectionReason.length > 0
+      return true
+    },
+    { message: "A rejection reason is required when rejecting a document.", path: ["rejectionReason"] }
+  )
 )
 
 export const PresignedUrlSchema = z.object({

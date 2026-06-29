@@ -53,6 +53,7 @@ export async function GET(req: NextRequest) {
 // POST /api/subjects — Admin only (enforced by middleware)
 export async function POST(req: NextRequest) {
   try {
+    const adminId = req.headers.get("x-user-id")
     const body = await req.json()
     const parsed = CreateSubjectSchema.safeParse(body)
 
@@ -66,6 +67,19 @@ export async function POST(req: NextRequest) {
     }
 
     const subject = await db.subject.create({ data: parsed.data })
+
+    if (adminId) {
+      await db.auditLog.create({
+        data: {
+          userId: adminId,
+          action: "CREATE_SUBJECT",
+          targetEntity: "subjects",
+          targetId: subject.id,
+          ipAddress: req.headers.get("x-forwarded-for") ?? req.ip
+        }
+      })
+    }
+
     return NextResponse.json(subject, { status: 201 })
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 })

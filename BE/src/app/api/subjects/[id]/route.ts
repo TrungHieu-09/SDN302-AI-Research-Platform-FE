@@ -62,6 +62,7 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
 // PUT /api/subjects/[id] — Admin only
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   try {
+    const adminId = req.headers.get("x-user-id")
     const body = await req.json()
     const parsed = UpdateSubjectSchema.safeParse(body)
     if (!parsed.success) {
@@ -69,6 +70,19 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     }
 
     const subject = await db.subject.update({ where: { id: params.id }, data: parsed.data })
+
+    if (adminId) {
+      await db.auditLog.create({
+        data: {
+          userId: adminId,
+          action: "UPDATE_SUBJECT",
+          targetEntity: "subjects",
+          targetId: subject.id,
+          ipAddress: req.headers.get("x-forwarded-for") ?? req.ip
+        }
+      })
+    }
+
     return NextResponse.json(subject)
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 400 })
@@ -76,12 +90,26 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 }
 
 // DELETE /api/subjects/[id] — Admin only (sets status to SUSPENDED)
-export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   try {
+    const adminId = req.headers.get("x-user-id")
     const subject = await db.subject.update({
       where: { id: params.id },
       data: { status: "SUSPENDED" },
     })
+
+    if (adminId) {
+      await db.auditLog.create({
+        data: {
+          userId: adminId,
+          action: "SUSPEND_SUBJECT",
+          targetEntity: "subjects",
+          targetId: subject.id,
+          ipAddress: req.headers.get("x-forwarded-for") ?? req.ip
+        }
+      })
+    }
+
     return NextResponse.json({ message: "Subject deactivated.", subject })
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 400 })
