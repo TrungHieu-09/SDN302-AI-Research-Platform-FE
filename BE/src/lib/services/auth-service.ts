@@ -2,7 +2,7 @@ import { db } from "@/lib/db"
 import bcrypt from "bcryptjs"
 import { SignJWT } from "jose"
 import nodemailer from "nodemailer"
-import type { SignupInput, LoginInput, VerifyOtpInput } from "@/lib/validation/auth"
+import type { SignupInput, LoginInput, VerifyOtpInput, GoogleAuthInput } from "@/lib/validation/auth"
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET!)
 
@@ -119,10 +119,38 @@ export async function loginUser(input: LoginInput) {
   const user = await db.user.findUnique({ where: { email: input.email } })
   if (!user) throw new Error("Invalid email or password.")
   if (user.status === "SUSPENDED") throw new Error("Your account is suspended. Please contact support.")
+  if (!user.passwordHash) throw new Error("This account was registered via Google SSO. Please sign in with Google.")
 
   const valid = await bcrypt.compare(input.password, user.passwordHash)
   if (!valid) throw new Error("Invalid email or password.")
 
   const token = await signToken({ sub: user.id, role: user.role, tier: user.tier })
-  return { token, user: { id: user.id, name: user.name, email: user.email, role: user.role, tier: user.tier } }
+  return { token, user: { id: user.id, name: user.name, email: user.email, avatarUrl: user.avatarUrl, role: user.role, tier: user.tier } }
+}
+
+export async function googleLoginUser(input: GoogleAuthInput) {
+  let user = await db.user.findUnique({ where: { email: input.email } })
+
+  if (user) {
+    if (user.status === "SUSPENDED") throw new Error("Your account is suspended. Please contact support.")
+    if (input.avatarUrl && !user.avatarUrl) {
+      user = await db.user.update({
+        where: { id: user.id },
+        data: { avatarUrl: input.avatarUrl }
+      })
+    }
+  } else {
+    user = await db.user.create({
+      data: {
+        name: input.name,
+        email: input.email,
+        avatarUrl: input.avatarUrl || null,
+        status: "ACTIVE",
+        role: "STUDENT"
+      }
+    })
+  }
+
+  const token = await signToken({ sub: user.id, role: user.role, tier: user.tier })
+  return { token, user: { id: user.id, name: user.name, email: user.email, avatarUrl: user.avatarUrl, role: user.role, tier: user.tier } }
 }
