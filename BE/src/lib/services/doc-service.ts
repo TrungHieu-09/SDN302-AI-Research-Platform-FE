@@ -37,16 +37,15 @@ export async function getDocumentById(id: string, requestingUserId: string, requ
     include: {
       owner: { select: { id: true, name: true, email: true } },
       subject: true,
-      moderatedBy: { select: { id: true, name: true } },
     },
   })
 
   if (!doc) throw new Error("Document not found.")
 
-  // Private docs are only visible to the owner and moderators/admins
+  // Private docs are only visible to the owner and admins
   if (doc.visibility === "PRIVATE" && doc.ownerId !== requestingUserId) {
-    if (requestingRole !== "MODERATOR" && requestingRole !== "ADMIN") {
-      throw new Error("Access denied.")
+    if (requestingRole !== "ADMIN") {
+      throw new Error("Forbidden: This document is private.")
     }
   }
 
@@ -97,7 +96,7 @@ export async function softDeleteDocument(id: string, requestingUserId: string, r
 
 export async function moderateDocument(
   id: string,
-  moderatorId: string,
+  adminId: string,
   input: ModerationDecisionInput,
   ipAddress?: string,
 ) {
@@ -110,14 +109,14 @@ export async function moderateDocument(
     data: {
       status: input.decision,
       rejectionReason: input.rejectionReason ?? null,
-      moderatedById: moderatorId,
+      moderatedById: adminId,
       moderatedAt: new Date(),
     },
   })
 
   await db.auditLog.create({
     data: {
-      userId: moderatorId,
+      userId: adminId,
       action: `DOCUMENT_${input.decision}`,
       targetEntity: "documents",
       targetId: id,

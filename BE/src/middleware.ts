@@ -8,8 +8,7 @@ import { jwtVerify } from "jose"
 
 const ROLE_HIERARCHY = {
   STUDENT: 1,
-  MODERATOR: 2,
-  ADMIN: 3,
+  ADMIN: 2,
 } as const
 
 type Role = keyof typeof ROLE_HIERARCHY
@@ -22,8 +21,8 @@ const ROUTE_RULES: { path: string; minRole: Role }[] = [
   { path: "/api/ai/limit", minRole: "STUDENT" },
   { path: "/api/payments/checkout", minRole: "STUDENT" },
   { path: "/api/documents", minRole: "STUDENT" }, // general doc access
-  // Moderator+ routes
-  { path: "/api/documents/moderate", minRole: "MODERATOR" },
+  // Admin+ routes
+  { path: "/api/documents/moderate", minRole: "ADMIN" },
   // Admin-only routes
   { path: "/api/subjects", minRole: "ADMIN" },
   { path: "/api/users", minRole: "ADMIN" },
