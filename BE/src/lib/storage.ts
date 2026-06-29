@@ -70,11 +70,19 @@ export async function getPresignedUploadUrl(
 
   const provider = process.env.STORAGE_PROVIDER ?? "s3"
 
+  if (provider === "local" || !process.env.AWS_ACCESS_KEY_ID || process.env.AWS_ACCESS_KEY_ID.startsWith("AKIA...")) {
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:4000"
+    return {
+      uploadUrl: `${appUrl}/api/documents/mock-upload?key=${key}`,
+      fileUrl: `${appUrl}/uploads/${key}`,
+      key
+    }
+  }
+
   if (provider === "s3") {
     return getS3PresignedUrl(key, mimeType)
   }
 
-  // GCS can be added here as a future provider
   throw new Error(`Unsupported storage provider: ${provider}`)
 }
 

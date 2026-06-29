@@ -57,16 +57,20 @@ export async function getDocumentById(id: string, requestingUserId: string, requ
 // ──────────────────────────────────────────────────────────────────────────────
 
 export async function createDocument(ownerId: string, input: UploadMetadataInput) {
-  // Deduplication check: reject if the same file hash already exists (approved, not deleted)
+  // Deduplication check: check if an approved document with the exact same hash exists
   const duplicate = await db.document.findFirst({
     where: { fileHash: input.fileHash, deletedAt: null, status: "APPROVED" },
   })
-  if (duplicate) throw new Error("This document already exists in the platform (duplicate file detected).")
+
+  // If duplicate exists, reuse its storage fileUrl so we don't store duplicate files
+  const fileUrl = duplicate ? duplicate.fileUrl : input.fileUrl
 
   return db.document.create({
     data: {
       ...input,
+      fileUrl,
       ownerId,
+      status: input.visibility === "PUBLIC" ? "PENDING" : "APPROVED",
     },
   })
 }

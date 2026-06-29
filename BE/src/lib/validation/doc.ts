@@ -27,6 +27,7 @@ export const PresignedUrlSchema = z.object({
   filename: z.string().min(1),
   mimeType: z.string().min(1),
   fileSize: z.number().int().positive().max(50 * 1024 * 1024, "File size cannot exceed 50 MB."),
+  fileHash: z.string().optional(),
 })
 
 export type UploadMetadataInput = z.infer<typeof UploadMetadataSchema>
