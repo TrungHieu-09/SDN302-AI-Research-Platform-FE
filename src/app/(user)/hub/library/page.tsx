@@ -8,7 +8,6 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-/* --- Mock Data --- */
 const collections = [
   { name: "All Documents", count: 142, active: true },
   { name: "Thesis Research", count: 45 },
